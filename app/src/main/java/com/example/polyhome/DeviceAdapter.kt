@@ -1,10 +1,13 @@
 package com.example.polyhome
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView // Ajoute cet import
 import android.widget.TextView
+
 class DeviceAdapter(val context: Context, val devices: List<Device>) : BaseAdapter() {
     override fun getCount() = devices.size
     override fun getItem(position: Int) = devices[position]
@@ -16,10 +19,22 @@ class DeviceAdapter(val context: Context, val devices: List<Device>) : BaseAdapt
 
         val name = view.findViewById<TextView>(R.id.txtDeviceName)
         val status = view.findViewById<TextView>(R.id.txtStatus)
+        val icon = view.findViewById<ImageView>(R.id.imgDeviceIcon)
 
-        name.text = device.type // Affiche "light" ou "rolling_shutter"
+        when (device.type) {
+            "light" -> {
+                icon.setImageResource(R.drawable.ic_light)
+                name.text = "Lumière" // Plus joli que "light"
+            }
+            "rolling shutter" -> {
+                icon.setImageResource(R.drawable.ic_shutter)
+                name.text = "Volet"
+            }
+            else -> {
+                name.text = device.type
+            }
+        }
 
-        // Affichage intelligent de l'état
         status.text = when {
             device.opening != null -> "${device.opening}%"
             device.power != null -> if(device.power == 1) "ON" else "OFF"

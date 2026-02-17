@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mes Lumières"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+
+    <ListView
+        android:id="@+id/listLights"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_marginTop="20dp"
+        android:divider="#333333"
+        android:dividerHeight="1dp"
+        android:padding="16dp" />
+</RelativeLayout>

@@ -31,6 +31,12 @@
         <activity
             android:name=".DevicesActivity"
             android:exported="false" />
+        <activity
+            android:name=".LightsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShuttersActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

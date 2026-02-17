@@ -1,5 +1,8 @@
 package com.example.polyhome
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,26 +19,94 @@ class DevicesActivity : AppCompatActivity() {
         token = intent.getStringExtra("token")
         houseId = intent.getIntExtra("houseId", -1)
 
-        val listView = findViewById<ListView>(R.id.listDevices)
-        adapter = DeviceAdapter(this, devicesList)
-        listView.adapter = adapter
+        findViewById<LinearLayout>(R.id.navLumieres).setOnClickListener {
+            val intent = Intent(this, LightsActivity::class.java)
+            intent.putExtra("token", token)
+            intent.putExtra("houseId", houseId)
+            startActivity(intent)
+        }
 
-        listView.setOnItemClickListener { _, _, position, _ ->
-            val device = devicesList[position]
+        findViewById<LinearLayout>(R.id.navVolets).setOnClickListener {
+            val intent = Intent(this, ShuttersActivity::class.java)
+            intent.putExtra("token", token)
+            intent.putExtra("houseId", houseId)
+            startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.btnOffAllLights).setOnClickListener {
+            var count = 0
+            for (device in devicesList) {
+                if (device.type.equals("light", ignoreCase = true)) {
+                    sendCommand(device.id, "TURN OFF")
+                    count++
+                }
+            }
+            if (count > 0) {
+                Toast.makeText(this, "Extinction de $count lumière(s)", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Aucune lumière trouvée", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Ouvrir tous les volets
+        findViewById<Button>(R.id.btnOpenAllShutters).setOnClickListener {
+            for (device in devicesList) {
+                if (device.type.contains("shutter", ignoreCase = true)) {
+                    // Selon ton API, on envoie "OPEN" ou un opening à 100
+                    sendCommand(device.id, "OPEN")
+                }
+            }
+        }
+
+    // Fermer tous les volets
+        findViewById<Button>(R.id.btnCloseAllShutters).setOnClickListener {
+            for (device in devicesList) {
+                if (device.type.contains("shutter", ignoreCase = true)) {
+                    sendCommand(device.id, "CLOSE")
+                }
+            }
+        }
+
+        // Ouvrir la porte de garage
+        findViewById<Button>(R.id.btnOpenGarage).setOnClickListener {
+            for (device in devicesList) {
+                // On vérifie si le type contient "garage" ou "door" (à adapter selon ton API)
+                if (device.type.contains("garage", ignoreCase = true) || device.type.contains("door", ignoreCase = true)) {
+                    sendCommand(device.id, "OPEN")
+                }
+            }
+            Toast.makeText(this, "Ouverture du garage...", Toast.LENGTH_SHORT).show()
+        }
+
+// Fermer la porte de garage
+        findViewById<Button>(R.id.btnCloseGarage).setOnClickListener {
+            for (device in devicesList) {
+                if (device.type.contains("garage", ignoreCase = true) || device.type.contains("door", ignoreCase = true)) {
+                    sendCommand(device.id, "CLOSE")
+                }
+            }
+            Toast.makeText(this, "Fermeture du garage...", Toast.LENGTH_SHORT).show()
+        }
+        //val listView = findViewById<ListView>(R.id.listDevices)
+        adapter = DeviceAdapter(this, devicesList)
+        //listView.adapter = adapter
+
+        //listView.setOnItemClickListener { _, _, position, _ ->
+          //  val device = devicesList[position]
 
             // Logique intelligente pour les volets (rolling_shutter)
-            val commandToSend = if (device.type == "rolling_shutter") {
+            //val commandToSend = if (device.type == "rolling_shutter") {
                 // Si l'ouverture est à 0 (fermé), on envoie OPEN, sinon on envoie CLOSE
-                if (device.opening == 0) "OPEN" else "CLOSE"
-            } else if (device.type == "light") {
+              //  if (device.opening == 0) "OPEN" else "CLOSE"
+           // } else if (device.type == "light") {
                 // Pareil pour la lumière : si power est 0 (éteint), on envoie TURN ON
-                if (device.power == 0) "TURN ON" else "TURN OFF"
-            } else {
+                //if (device.power == 0) "TURN ON" else "TURN OFF"
+            //} else {
                 "OPEN" // Valeur par défaut pour le garage ou autre
-            }
+            //}
 
-            sendCommand(device.id, commandToSend)
-        }
+            //sendCommand(device.id, commandToSend)
+        //}
         loadDevices()
     }
 
