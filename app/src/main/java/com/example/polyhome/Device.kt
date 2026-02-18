@@ -8,7 +8,7 @@ data class Device(
     val power: Int? = null    // Pour les lumières
 )
 
-// L'API renvoie un objet contenant une liste "devices"
+
 data class DevicesResponse(
     val devices: List<Device>
 )

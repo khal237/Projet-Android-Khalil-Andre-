@@ -70,7 +70,7 @@ class DevicesActivity : AppCompatActivity() {
         // Ouvrir la porte de garage
         findViewById<Button>(R.id.btnOpenGarage).setOnClickListener {
             for (device in devicesList) {
-                // On vérifie si le type contient "garage" ou "door" (à adapter selon ton API)
+
                 if (device.type.contains("garage", ignoreCase = true) || device.type.contains("door", ignoreCase = true)) {
                     sendCommand(device.id, "OPEN")
                 }
@@ -87,7 +87,7 @@ class DevicesActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "Fermeture du garage...", Toast.LENGTH_SHORT).show()
         }
-        //val listView = findViewById<ListView>(R.id.listDevices)
+
         adapter = DeviceAdapter(this, devicesList)
         //listView.adapter = adapter
 
@@ -153,4 +153,5 @@ class DevicesActivity : AppCompatActivity() {
             token
         )
     }
+
 }

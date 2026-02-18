@@ -24,7 +24,7 @@ class DeviceAdapter(val context: Context, val devices: List<Device>) : BaseAdapt
         when (device.type) {
             "light" -> {
                 icon.setImageResource(R.drawable.ic_light)
-                name.text = "Lumière" // Plus joli que "light"
+                name.text = "Lumière"
             }
             "rolling shutter" -> {
                 icon.setImageResource(R.drawable.ic_shutter)

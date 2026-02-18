@@ -6,7 +6,6 @@ data class LoginData(
     val password: String
 )
 
-// Pour récupérer le token après la connexion (Réception)
 data class LoginResponse(
     val token: String
 )

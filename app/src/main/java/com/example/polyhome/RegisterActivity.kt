@@ -55,7 +55,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    // Lié au texte "Se connecter" (onClick: goToLogin)
     public fun goToLogin(view: View) {
         finish()
     }

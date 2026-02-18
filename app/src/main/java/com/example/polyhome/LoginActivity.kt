@@ -56,7 +56,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    // Fonction pour sauvegarder le token dans les SharedPreferences et  "se souvenir" de l'utilisateur
     private fun saveToken(token: String) {
         val sharedPref = getSharedPreferences("PolyHomePrefs", MODE_PRIVATE)
         with (sharedPref.edit()) {
